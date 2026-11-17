@@ -1,0 +1,2 @@
+# NukoBot-Discord
+discordバージョンのぬこBot
