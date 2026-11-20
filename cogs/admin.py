@@ -16,6 +16,7 @@ class AdminCog(commands.Cog):
 
         if interaction.user.id != self.OWNER_ID:
             await interaction.followup.send(embed=discord.Embed(description="Bot管理者のみが使用できます。", color=discord.Color.red()))
+            return
 
         if key == "reload":
             await self.bot.reload_extension("cogs." + value)
