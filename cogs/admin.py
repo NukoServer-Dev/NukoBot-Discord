@@ -2,6 +2,8 @@ from discord.ext import commands
 from discord import app_commands
 import discord
 
+import asyncio
+
 class AdminCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         super().__init__()
@@ -29,8 +31,17 @@ class AdminCog(commands.Cog):
             await interaction.followup.send(embed=discord.Embed(description=f"スラッシュコマンドを同期しました。", color=discord.Color.green()))
         elif key == "echo":
             await interaction.followup.send(value)
+        elif key == "pull":
+            proc = await asyncio.create_subprocess_shell(
+                "git pull",
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+            )
+            stdout, stderr = await proc.communicate()
+            print(stdout.strip(), stderr.strip())
+            await interaction.followup.send(embed=discord.Embed(description="データをダウンロードしました。", color=discord.Color.green()))
         else:
-            await interaction.followup.send(embed=discord.Embed(description="コマンド: `reload` `load` `unload` `sync`", color=discord.Color.blue()))
+            await interaction.followup.send(embed=discord.Embed(description="コマンド: `reload` `load` `unload` `sync` `echo` `pull`", color=discord.Color.blue()))
         
 async def setup(bot: commands.Bot):
     await bot.add_cog(AdminCog(bot))

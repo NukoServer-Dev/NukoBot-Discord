@@ -34,7 +34,7 @@ class DownloadCog(commands.Cog):
                 img = bs4.select(".separator > a")[0]
                 title = bs4.find("div", class_="title")
 
-                await interaction.followup.send(embed=discord.Embed(color=discord.Color.green()).set_image(url=img.get("href")), view=discord.ui.View(timeout=None).add_item(discord.ui.Button(url=url, label=title.text)))
+                await interaction.followup.send(embed=discord.Embed(color=discord.Color.green(), title=title.text).set_image(url=img.get("href")), view=discord.ui.View(timeout=None).add_item(discord.ui.Button(url=url, label=title.text)))
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(DownloadCog(bot))
