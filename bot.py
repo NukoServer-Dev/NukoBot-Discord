@@ -14,6 +14,7 @@ bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
 async def setup_hook():
     await bot.load_extension("cogs.download")
     await bot.load_extension("cogs.omikuji")
+    await bot.load_extension("cogs.minecraft")
     await bot.tree.sync()
 
 if __name__ == "__main__":
