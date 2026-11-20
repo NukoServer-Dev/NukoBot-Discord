@@ -1,3 +1,5 @@
+import io
+
 import aiohttp
 from discord.ext import commands
 from discord import app_commands
@@ -15,18 +17,11 @@ class MinecraftCog(commands.Cog):
         await interaction.response.defer()
 
         async with aiohttp.ClientSession() as session:
-            async with session.get(f'https://api.mojang.com/users/profiles/minecraft/{urllib.parse.quote(mcid)}') as uuid:
-                if uuid.status != 200:
-                    await interaction.followup.send(embed=discord.Embed(description=f"MojangAPIがダウンしています。", color=discord.Color.red()))
-                    return
-
-                uuid_json = await uuid.json()
-                uuidGet = uuid_json.get('id')
-                if not uuidGet:
-                    await interaction.followup.send(embed=discord.Embed(description=f"UUIDの取得に失敗しました。", color=discord.Color.red()))
-                    return
-
-                await interaction.followup.send(embed=discord.Embed(title=f"{mcid}のスキン").add_field(name="UUID", value=uuidGet, inline=False).set_image(url=f"https://mc-heads.net/body/{mcid}/200"))
+            async with session.get(f"https://mc-heads.net/body/{urllib.parse.quote(mcid)}/200") as skin:
+                skin_res = await skin.read()
+                skin_io = io.BytesIO(skin_res)
+                await interaction.followup.send(file=discord.File(skin_io, filename="skin.png"), view=discord.ui.View(timeout=None).add_item(discord.ui.Button(label=f"{mcid}のスキン", disabled=True)))
+                skin_io.close()
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(MinecraftCog(bot))
