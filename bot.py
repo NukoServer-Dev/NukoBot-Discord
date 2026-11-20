@@ -1,3 +1,6 @@
+import asyncio
+import traceback
+
 from discord.ext import commands
 import discord
 import dotenv
@@ -10,12 +13,31 @@ intents.guilds = True
 
 bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
 
+async def load_cogs(bot: commands.Bot, base_folder="cogs"):
+    tasks = []
+
+    for root, _, files in os.walk(base_folder):
+        for file in files:
+            if file.endswith(".py") and not file.startswith("_"):
+                full_path = os.path.join(root, file)
+                relative_path = os.path.relpath(full_path, os.path.dirname(base_folder))
+
+                module = relative_path.replace(os.sep, ".")[:-3]
+                tasks.append(module)
+
+    async def load_extension_safe(mod: str):
+        try:
+            await bot.load_extension(mod)
+        except Exception as e:
+            print(f"Failed to load {mod}: {e}")
+            traceback.print_exc()
+
+    if tasks:
+        await asyncio.gather(*(load_extension_safe(mod) for mod in tasks))
+
 @bot.event
 async def setup_hook():
-    await bot.load_extension("cogs.download")
-    await bot.load_extension("cogs.omikuji")
-    await bot.load_extension("cogs.minecraft")
-    await bot.tree.sync()
+    await load_cogs(bot)
 
 if __name__ == "__main__":
     bot.run(os.environ.get('DISCORD_TOKEN'))

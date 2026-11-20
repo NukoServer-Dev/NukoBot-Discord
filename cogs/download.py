@@ -32,8 +32,9 @@ class DownloadCog(commands.Cog):
             async with session.get(url) as response:
                 bs4 = BeautifulSoup(await response.text(), "html.parser")
                 img = bs4.select(".separator > a")[0]
+                title = bs4.find("div", class_="title")
 
-                await interaction.followup.send(embed=discord.Embed(description=f"✅ダウンロート完了！", color=discord.Color.green()).set_image(url=img.get("href")))
+                await interaction.followup.send(embed=discord.Embed(color=discord.Color.green()).set_image(url=img.get("href")), view=discord.ui.View(timeout=None).add_item(discord.ui.Button(url=url, label=title.text)))
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(DownloadCog(bot))
