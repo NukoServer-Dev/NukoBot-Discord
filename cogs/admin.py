@@ -8,8 +8,8 @@ class AdminCog(commands.Cog):
         self.bot = bot
         self.OWNER_ID=1569217425663328276
 
-    @app_commands.command(name="admin", description="Bot管理者用コマンド")
-    async def admin_command(self, interaction: discord.Interaction, key: str, value: str, ephemeral: bool = True):
+    @app_commands.command(name="owner", description="Bot管理者用コマンド")
+    async def owner_command(self, interaction: discord.Interaction, key: str, value: str, ephemeral: bool = True):
         await interaction.response.defer(ephemeral=ephemeral)
 
         if interaction.user.id != self.OWNER_ID:
