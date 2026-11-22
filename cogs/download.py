@@ -33,8 +33,9 @@ class DownloadCog(commands.Cog):
                 bs4 = BeautifulSoup(await response.text(), "html.parser")
                 img = bs4.select(".separator > a")[0]
                 title = bs4.find("div", class_="title")
+                post_date = bs4.find("div", class_="entry-post-date")
 
-                await interaction.followup.send(embed=discord.Embed(color=discord.Color.green(), title=title.text).set_image(url=img.get("href")), view=discord.ui.View(timeout=None).add_item(discord.ui.Button(url=url, label=title.text)))
+                await interaction.followup.send(embed=discord.Embed(color=discord.Color.green(), title=title.text).add_field(name="投稿日", value=post_date.text, inline=False).set_image(url=img.get("href")), view=discord.ui.View(timeout=None).add_item(discord.ui.Button(url=url, label="サイトへジャンプ")))
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(DownloadCog(bot))
