@@ -28,6 +28,7 @@ class MinecraftCog(commands.Cog):
                 skin_io.close()
 
     async def version_autocomplete(
+        self,
         interaction: discord.Interaction,
         current: str,
     ) -> list[app_commands.Choice[str]]:
