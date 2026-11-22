@@ -51,15 +51,24 @@ class MinecraftCog(commands.Cog):
         async with aiohttp.ClientSession() as session:
             async with session.get("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json") as resp:
                 version_json = await resp.json()
+
+                async def reply(versionClass: MCJavaVersion):
+                    await interaction.followup.send(
+                        embed=discord.Embed(title=versionClass.id, color=discord.Color.green())
+                        .add_field(name="タイプ", value=versionClass.type, inline=True)
+                        .add_field(name="リリース時期", value=versionClass.releaseTime, inline=True)
+                        .add_field(name="リリースの詳細URL", value=versionClass.url, inline=False)
+                    )
+
+                if not version:
+                    version_latest = MCJavaVersion(**version_json.get('versions', [])[0])
+                    await reply(version_latest)
+                    return
+
                 for version in version_json.get('versions', []):
                     versionClass = MCJavaVersion(**version)
-                    if versionClass.id == version or not version:
-                        await interaction.followup.send(
-                            embed=discord.Embed(title=versionClass.id, color=discord.Color.green())
-                            .add_field(name="タイプ", value=versionClass.type, inline=True)
-                            .add_field(name="リリース時期", value=versionClass.releaseTime, inline=True)
-                            .add_field(name="リリースの詳細URL", value=versionClass.url, inline=False)
-                        )
+                    if versionClass.id == version:
+                        await reply(versionClass)
                         return
 
                 await interaction.followup.send(
