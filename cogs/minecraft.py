@@ -38,7 +38,7 @@ class MinecraftCog(commands.Cog):
                 version_json = await resp.json()
                 for version in version_json.get('versions', []):
                     versionClass = MCJavaVersion(**version)
-                    if current in versionClass.id:
+                    if current in versionClass.id or not current:
                         auto_comp_list.append(app_commands.Choice(name=current.id, value=current.id))
         return auto_comp_list
 
@@ -53,7 +53,7 @@ class MinecraftCog(commands.Cog):
                 version_json = await resp.json()
                 for version in version_json.get('versions', []):
                     versionClass = MCJavaVersion(**version)
-                    if versionClass.id == version:
+                    if versionClass.id == version or not version:
                         await interaction.followup.send(
                             embed=discord.Embed(title=versionClass.id, color=discord.Color.green())
                             .add_field(name="タイプ", value=versionClass.type, inline=True)
