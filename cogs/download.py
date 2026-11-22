@@ -35,7 +35,10 @@ class DownloadCog(commands.Cog):
                 title = bs4.find("div", class_="title")
                 post_date = bs4.find("div", class_="entry-post-date")
 
-                await interaction.followup.send(embed=discord.Embed(color=discord.Color.green(), title=title.text).add_field(name="投稿日", value=post_date.text, inline=False).set_image(url=img.get("href")), view=discord.ui.View(timeout=None).add_item(discord.ui.Button(url=url, label="サイトへジャンプ")))
+                try:
+                    await interaction.followup.send(embed=discord.Embed(color=discord.Color.green(), title=title.text).add_field(name="公開日", value=post_date.text.split("：")[1], inline=False).set_image(url=img.get("href")), view=discord.ui.View(timeout=None).add_item(discord.ui.Button(url=url, label="サイトへジャンプ")))
+                except:
+                    await interaction.followup.send(embed=discord.Embed(color=discord.Color.red(), description="ダウンロードに失敗しました。"))
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(DownloadCog(bot))
