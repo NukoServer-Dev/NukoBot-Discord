@@ -39,7 +39,7 @@ class MinecraftCog(commands.Cog):
                 for version in version_json.get('versions', []):
                     versionClass = MCJavaVersion(**version)
                     if current in versionClass.id or not current:
-                        auto_comp_list.append(app_commands.Choice(name=current.id, value=current.id))
+                        auto_comp_list.append(app_commands.Choice(name=versionClass.id, value=versionClass.id))
         return auto_comp_list
 
     @mc.command(name="version", description="MinecraftJavaのバージョンを検索します。")
