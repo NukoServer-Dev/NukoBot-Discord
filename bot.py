@@ -38,6 +38,7 @@ async def load_cogs(bot: commands.Bot, base_folder="cogs"):
 
 @bot.event
 async def setup_hook():
+    await bot.load_extension("jishaku")
     await load_cogs(bot)
     await bot.tree.sync()
 
