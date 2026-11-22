@@ -65,8 +65,8 @@ class MinecraftCog(commands.Cog):
                     await reply(version_latest)
                     return
 
-                for version in version_json.get('versions', []):
-                    versionClass = MCJavaVersion(**version)
+                for versionJson in version_json.get('versions', []):
+                    versionClass = MCJavaVersion(**versionJson)
                     if versionClass.id == version:
                         await reply(versionClass)
                         return
