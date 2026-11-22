@@ -12,7 +12,7 @@ intents = discord.Intents.none()
 intents.guilds = True
 intents.guild_messages = True
 
-bot = commands.Bot(command_prefix="<@1572066125611671662> ", intents=intents, help_command=None)
+bot = commands.Bot(command_prefix=commands.when_mentioned_or("!"), intents=intents, help_command=None)
 
 async def load_cogs(bot: commands.Bot, base_folder="cogs"):
     tasks = []
