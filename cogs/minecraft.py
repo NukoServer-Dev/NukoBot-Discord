@@ -40,7 +40,7 @@ class MinecraftCog(commands.Cog):
                     versionClass = MCJavaVersion(**version)
                     if current in versionClass.id or not current:
                         auto_comp_list.append(app_commands.Choice(name=versionClass.id, value=versionClass.id))
-        return auto_comp_list
+        return auto_comp_list[:25]
 
     @mc.command(name="version", description="MinecraftJavaのバージョンを検索します。")
     @app_commands.describe(version="指定しない場合は最新バージョン")
