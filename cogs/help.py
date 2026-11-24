@@ -8,7 +8,7 @@ class HelpCog(commands.Cog):
         self.bot = bot
 
     def make_embed(self):
-        return (discord.Embed(title="コマンドの使い方", color=self.bot.user.color)
+        return (discord.Embed(title="コマンドの使い方", color=discord.Color.blue())
         .add_field(name="Minecraft", value="`/mc skin`, `/mc version`", inline=False)
         .add_field(name="ダウンロード", value="`/いらすとや`", inline=False)
         .add_field(name="楽しい機能", value="`/omikuji`", inline=False)
