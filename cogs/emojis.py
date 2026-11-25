@@ -33,7 +33,7 @@ class EmojisCog(commands.Cog):
 
         try:
             emoji = await interaction.guild.create_custom_emoji(
-                name=user.name,
+                name=user.name.lower().replace(" ", "_").replace("　", "_"),
                 image=avatar,
                 reason=f"{interaction.user.name}により作成"
             )
