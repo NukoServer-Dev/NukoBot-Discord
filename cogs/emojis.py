@@ -7,7 +7,7 @@ class EmojisCog(commands.Cog):
         super().__init__()
         self.bot = bot
 
-    emojis = app_commands.Group(name="emojis", description="絵文字に関するコマンド", allowed_installs=discord.AppInstallationType.guild)
+    emojis = app_commands.Group(name="emojis", description="絵文字に関するコマンド", guild_only=True)
 
     @emojis.command(name="avatar", description="ユーザーのアバターの絵文字を作成します。")
     @app_commands.describe(user="discordのユーザーを入力")
