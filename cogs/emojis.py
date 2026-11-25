@@ -11,7 +11,7 @@ class EmojisCog(commands.Cog):
     emojis = app_commands.Group(
         name="emojis",
         description="絵文字に関するコマンド",
-        guild_only=True
+        allowed_installs=app_commands.AppInstallationType(user=False, guild=True),
     )
 
     @emojis.command(
