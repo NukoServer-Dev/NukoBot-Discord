@@ -11,7 +11,7 @@ class HelpCog(commands.Cog):
         return (discord.Embed(title="コマンドの使い方", color=discord.Color.blue())
         .add_field(name="Minecraft", value="`/mc skin` `/mc version`", inline=False)
         .add_field(name="ダウンロード", value="`/いらすとや`", inline=False)
-        .add_field(name="楽しい機能", value="`/omikuji`", inline=False)
+        .add_field(name="楽しい機能", value="`/omikuji` `/emojis avatar`", inline=False)
         .add_field(name="Bot関連", value="`/help` `/owner`", inline=False)
         .set_footer(text=f"ぬこぬこBot / {len(self.bot.guilds)}サーバー")
         .set_thumbnail(url=self.bot.user.display_avatar.url))
