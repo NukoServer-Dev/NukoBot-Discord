@@ -19,7 +19,7 @@ class EmojisCog(commands.Cog):
         description="ユーザーのアバターの絵文字を作成します。"
     )
     @app_commands.describe(user="discordのユーザーを入力")
-    @app_commands.default_permissions(create_expressions=True)
+    @app_commands.checks.has_permissions(create_expressions=True)
     @app_commands.allowed_installs(guilds=True, users=False)
     async def avatar_emoji_command(
         self,
